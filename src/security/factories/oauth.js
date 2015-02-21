@@ -2,7 +2,7 @@
 
 (function(module){
 
-    var oauth = function($http, formEncode){
+    var oauth = function($http, formEncode, currentUser){
 
         var login = function(username, password){
 
@@ -18,7 +18,11 @@
                 grant_type:"password"
             });
 
-            return $http.post("/api/login", data, code);
+            return $http.post("/api/login", data, code)
+                        .then(function(){
+                            currentUser.setProfile(username,response.data.access_token);
+                            return username;
+                        });
 
         };
 
