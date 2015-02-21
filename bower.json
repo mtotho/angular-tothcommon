@@ -1,0 +1,7 @@
+{
+  "main":{
+
+  },
+  "ignore":["gulpfile.js", ".gitignore", "package.json"]
+
+}
