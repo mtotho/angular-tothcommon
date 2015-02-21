@@ -42,6 +42,41 @@ angular.module('tothcommon.security', [])
 
 (function(module){
 
+    var localStorage = function($window){
+
+        var store = $window.localStorage;
+
+        var add = function (key, value){
+            value = angular.toJson(value);
+            store.setItem(key, value);
+        };
+
+        var get = function (key){
+            var value = store.getItem(key);
+            if(value){
+                value = angular.fromJson(value);
+            }
+            return value;
+        }
+
+        var remove = function(key){
+            store.removeItem(key);
+        }
+
+        return{
+            add:add,
+            get:get,
+            remove:remove
+        }
+    };
+
+    module.factory("localStorage", localStorage);
+
+}(angular.module("tothcommon")));
+'use strict';
+
+(function(module){
+
     var oauth = function($http, formEncode, CurrentUser){
 
         var login = function(username, password){
@@ -140,20 +175,35 @@ angular.module('tothcommon.security', [])
 
 (function(module){
 
-    var CurrentUser = function(){
+    var CurrentUser = function(localStorage){
+
+        var USERKEY = "utoken";
 
         var setProfile = function(username, token){
             profile.username=username;
             profile.token = token;
+            localStorage.add(USERKEY, profile);
         }
 
-        var profile = {
-            username:"",
-            token:"",
-            get loggedIn(){
-                return this.token;
+        var initialize = function(){
+
+            var user ={
+                username:"",
+                token:"",
+                get loggedIn() {
+                    return this.token;
+                }
             }
-        };
+            var localUser = localStorage.get(USERKEY);
+            if(localUser){
+                user.username = localUser.username;
+                user.token = localUser.token;
+            }
+
+            return user;
+        }
+
+        var profile = initialize();
 
         return{
             setProfile:setProfile,
