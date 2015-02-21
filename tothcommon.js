@@ -42,7 +42,7 @@ angular.module('tothcommon.security', [])
 
 (function(module){
 
-    var oauth = function($http, formEncode){
+    var oauth = function($http, formEncode, currentUser){
 
         var login = function(username, password){
 
@@ -58,7 +58,11 @@ angular.module('tothcommon.security', [])
                 grant_type:"password"
             });
 
-            return $http.post("/api/login", data, code);
+            return $http.post("/api/login", data, code)
+                        .then(function(){
+                            currentUser.setProfile(username,response.data.access_token);
+                            return username;
+                        });
 
         };
 
@@ -68,5 +72,61 @@ angular.module('tothcommon.security', [])
     };
 
     module.factory("oauth", oauth);
+
+}(angular.module("tothcommon.security")));
+'use strict';
+
+(function(module){
+
+    var addToken = function(CurrentUser, $q){
+
+        //If the user is logged in on an HTTP request, add their token to headers
+        var request = function(config){
+            console.log("+-tothcommon.security: intercepting http request");
+            if(CurrentUser.profile.loggedIn){
+                config.headers.Authorization = "Bearer " + CurrentUser.profile.token;
+            }
+
+            return $q.when(config);
+        }
+
+        return{
+           request:request
+        }
+    };
+
+    module.factory("addToken", addToken);
+
+    module.config(function($httpProvider){
+        $httpProvider.interceptors.push("addToken");
+    });
+
+}(angular.module("tothcommon.security")));
+'use strict';
+
+(function(module){
+
+    var CurrentUser = function($http, formEncode){
+
+        var setProfile = function(username, token){
+            profile.username=username;
+            profile.token = token;
+        }
+
+        var profile = {
+            username:"",
+            token:"",
+            get loggedIn(){
+                return this.token;
+            }
+        };
+
+        return{
+            setProfile:setProfile,
+            profile:profile
+        }
+    };
+
+    module.factory("CurrentUser", CurrentUser);
 
 }(angular.module("tothcommon.security")));
