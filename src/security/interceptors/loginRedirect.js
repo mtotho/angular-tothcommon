@@ -31,4 +31,4 @@
         $httpProvider.interceptors.push("loginRedirect");
     });
 
-}(angular.module("tothcommon.security")));
+}(angular.module("tothcommon")));

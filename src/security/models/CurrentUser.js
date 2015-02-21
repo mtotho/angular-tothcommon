@@ -40,4 +40,4 @@
 
     module.factory("CurrentUser", CurrentUser);
 
-}(angular.module("tothcommon.security")));
+}(angular.module("tothcommon")));

@@ -25,4 +25,4 @@
         $httpProvider.interceptors.push("addToken");
     });
 
-}(angular.module("tothcommon.security")));
+}(angular.module("tothcommon")));

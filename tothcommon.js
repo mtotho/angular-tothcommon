@@ -21,25 +21,6 @@ angular.module('tothcommon', [
 
 'use strict';
 
-angular.module('tothcommon.security', [])
-
-.config(function () {
-    console.log("tothcommon.security");
-    /*  $mdThemingProvider.theme('default')
-     .primaryPalette('light-green', {
-     'default': '400', // by default use shade 400 from the pink palette for primary intentions
-     'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
-     'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
-     'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
-     })*/
-
-});
-
-
-
-
-'use strict';
-
 (function(module){
 
     var localStorage = function($window){
@@ -108,7 +89,7 @@ angular.module('tothcommon.security', [])
 
     module.factory("oauth", oauth);
 
-}(angular.module("tothcommon.security")));
+}(angular.module("tothcommon")));
 'use strict';
 
 (function(module){
@@ -136,7 +117,7 @@ angular.module('tothcommon.security', [])
         $httpProvider.interceptors.push("addToken");
     });
 
-}(angular.module("tothcommon.security")));
+}(angular.module("tothcommon")));
 'use strict';
 
 (function(module){
@@ -170,7 +151,7 @@ angular.module('tothcommon.security', [])
         $httpProvider.interceptors.push("loginRedirect");
     });
 
-}(angular.module("tothcommon.security")));
+}(angular.module("tothcommon")));
 'use strict';
 
 (function(module){
@@ -213,4 +194,4 @@ angular.module('tothcommon.security', [])
 
     module.factory("CurrentUser", CurrentUser);
 
-}(angular.module("tothcommon.security")));
+}(angular.module("tothcommon")));
