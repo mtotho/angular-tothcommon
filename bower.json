@@ -1,8 +1,6 @@
 {
   "name":"tothcommon",
-  "main":{
-
-  },
+  "main":[],
   "ignore":["gulpfile.js", ".gitignore", "package.json"]
 
 }
