@@ -18,3 +18,55 @@ angular.module('tothcommon', [
 
 
 
+
+'use strict';
+
+angular.module('tothcommon.security', [])
+
+.config(function () {
+    console.log("tothcommon.security");
+    /*  $mdThemingProvider.theme('default')
+     .primaryPalette('light-green', {
+     'default': '400', // by default use shade 400 from the pink palette for primary intentions
+     'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
+     'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
+     'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
+     })*/
+
+});
+
+
+
+
+'use strict';
+
+(function(module){
+
+    var oauth = function($http, formEncode){
+
+        var login = function(username, password){
+
+            var config = {
+                headers:{
+                    "Content-Type":"application/x-www-form-urlencoded"
+                }
+            };
+
+            var data = formEncode({
+                username:username,
+                password:password,
+                grant_type:"password"
+            });
+
+            return $http.post("/api/login", data, code);
+
+        };
+
+        return{
+            login:login
+        }
+    };
+
+    module.factory("oauth", oauth);
+
+}(angular.module("tothcommon.security")));
