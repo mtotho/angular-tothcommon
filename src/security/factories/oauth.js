@@ -2,7 +2,7 @@
 
 (function(module){
 
-    var oauth = function($http, formEncode, currentUser){
+    var oauth = function($http, formEncode, CurrentUser){
 
         var login = function(username, password){
 

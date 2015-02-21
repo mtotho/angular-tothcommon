@@ -2,7 +2,7 @@
 
 (function(module){
 
-    var CurrentUser = function($http, formEncode){
+    var CurrentUser = function(){
 
         var setProfile = function(username, token){
             profile.username=username;

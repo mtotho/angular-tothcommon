@@ -42,7 +42,7 @@ angular.module('tothcommon.security', [])
 
 (function(module){
 
-    var oauth = function($http, formEncode, currentUser){
+    var oauth = function($http, formEncode, CurrentUser){
 
         var login = function(username, password){
 
@@ -106,7 +106,7 @@ angular.module('tothcommon.security', [])
 
 (function(module){
 
-    var CurrentUser = function($http, formEncode){
+    var CurrentUser = function(){
 
         var setProfile = function(username, token){
             profile.username=username;
