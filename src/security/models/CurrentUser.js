@@ -3,7 +3,6 @@
 (function(module){
 
     var CurrentUser = function(localStorage){
-
         var USERKEY = "utoken";
 
         var setProfile = function(username, token){
@@ -14,26 +13,32 @@
 
         var initialize = function(){
 
-            var user ={
-                username:"",
-                token:"",
-                get loggedIn() {
-                    return this.token;
-                }
+            var user={
+                profile: {
+                    username: "",
+                    token: "",
+                    get loggedIn() {
+                        return this.token;
+                    }
+                },
+                data:{}
+
             }
+
+
             var localUser = localStorage.get(USERKEY);
             if(localUser){
-                user.username = localUser.username;
-                user.token = localUser.token;
+                user.profile = localUser.profile;
+                user.data = localUser.data;
+
+                //profile.username = localUser.username;
+                //profile.token = localUser.token;
             }
 
             return user;
         }
 
-        var model = {
-            profile:initialize(),
-            data:{}
-        }
+        var model = initialize();
 
         var setData = function(key, value){
             model.data[key] = value;
