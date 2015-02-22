@@ -7,9 +7,9 @@
         var USERKEY = "utoken";
 
         var setProfile = function(username, token){
-            profile.username=username;
-            profile.token = token;
-            localStorage.add(USERKEY, profile);
+            model.profile.username=username;
+            model.profile.token = token;
+            localStorage.add(USERKEY,model);
         }
 
         var initialize = function(){
@@ -30,9 +30,16 @@
             return user;
         }
 
-        var profile = initialize();
+        var model = {
+            profile:initialize(),
+            data:{}
+        }
 
-        var data = {};
+        var setData = function(key, value){
+            model.data[key] = value;
+
+            localStorage.add(USERKEY,model);
+        }
         return{
             setProfile:setProfile,
             profile:profile,

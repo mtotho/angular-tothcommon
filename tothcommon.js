@@ -205,51 +205,6 @@ angular.module('tothcommon.oauth', [
 
 (function(module){
 
-    var CurrentUser = function(localStorage){
-
-        var USERKEY = "utoken";
-
-        var setProfile = function(username, token){
-            profile.username=username;
-            profile.token = token;
-            localStorage.add(USERKEY, profile);
-        }
-
-        var initialize = function(){
-
-            var user ={
-                username:"",
-                token:"",
-                get loggedIn() {
-                    return this.token;
-                }
-            }
-            var localUser = localStorage.get(USERKEY);
-            if(localUser){
-                user.username = localUser.username;
-                user.token = localUser.token;
-            }
-
-            return user;
-        }
-
-        var profile = initialize();
-
-        var data = {};
-        return{
-            setProfile:setProfile,
-            profile:profile,
-            data:data
-        }
-    };
-
-    module.factory("CurrentUser", CurrentUser);
-
-}(angular.module("tothcommon")));
-'use strict';
-
-(function(module){
-
     var oauth = function($http, formEncode, CurrentUser){
 
         var login = function(username, password){
@@ -282,3 +237,55 @@ angular.module('tothcommon.oauth', [
     module.factory("oauth", oauth);
 
 }(angular.module("tothcommon.oauth")));
+'use strict';
+
+(function(module){
+
+    var CurrentUser = function(localStorage){
+
+        var USERKEY = "utoken";
+
+        var setProfile = function(username, token){
+            model.profile.username=username;
+            model.profile.token = token;
+            localStorage.add(USERKEY,model);
+        }
+
+        var initialize = function(){
+
+            var user ={
+                username:"",
+                token:"",
+                get loggedIn() {
+                    return this.token;
+                }
+            }
+            var localUser = localStorage.get(USERKEY);
+            if(localUser){
+                user.username = localUser.username;
+                user.token = localUser.token;
+            }
+
+            return user;
+        }
+
+        var model = {
+            profile:initialize(),
+            data:{}
+        }
+
+        var setData = function(key, value){
+            model.data[key] = value;
+
+            localStorage.add(USERKEY,model);
+        }
+        return{
+            setProfile:setProfile,
+            profile:profile,
+            data:data
+        }
+    };
+
+    module.factory("CurrentUser", CurrentUser);
+
+}(angular.module("tothcommon")));
