@@ -32,9 +32,11 @@
 
         var profile = initialize();
 
+        var data = {};
         return{
             setProfile:setProfile,
-            profile:profile
+            profile:profile,
+            data:data
         }
     };
 
