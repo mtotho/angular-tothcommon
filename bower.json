@@ -1,6 +1,12 @@
 {
   "name":"tothcommon",
   "main":[],
+  "dependencies": {
+    "angular": "latest",
+    "angular-ui-router":"latest",
+    "angular-google-gapi":"latest"
+
+  },
   "ignore":["gulpfile.js", ".gitignore", "package.json", "index.html"]
 
 }

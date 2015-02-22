@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('tothcommon', [
-
+    'angular-google-gapi'
 ])
 
     .config(function () {
