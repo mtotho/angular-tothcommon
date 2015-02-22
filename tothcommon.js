@@ -56,6 +56,9 @@ angular.module('tothcommon.diagnostics', [
 
         $provide.decorator("$interpolate", function($delegate, $log){
 
+            //keep track of bindings of the same name so we dont spam the console
+            var previousBindings = {};
+
             var serviceWrapper = function(){
                 var bindingFunction = $delegate.apply(this, arguments);
                 if(angular.isFunction(bindingFunction) && arguments[0]){
@@ -69,23 +72,25 @@ angular.module('tothcommon.diagnostics', [
                 return function(){
                     var result = bindingFunction.apply(this, arguments);
                     var trimmedResult = result.trim();
-                 
 
-                    var log = trimmedResult ? $log.info : $log.warn;
-                    log.call($log, bindingExpression + " = " + trimmedResult)
+                    if(!previousBindings[trimmedResult]){
+                        var log = trimmedResult ? $log.info : $log.warn;
+                        if(!trimmedResult) {
+                            log.call($log, "BINDING ERROR: " + bindingExpression + " = " + trimmedResult)
+                        }else{
+                            log.call($log, "BINDING Success: " + bindingExpression + " = " + trimmedResult)
+                        }
+
+                        previousBindings[trimmedResult]=1;
+                    }
+
                     return result;
                 }
             }
             angular.extend(serviceWrapper, $delegate)
-
             return serviceWrapper;
-
         });
     });
-
-
-
-
 }(angular.module("tothcommon.diagnostics")));
 'use strict';
 
@@ -162,49 +167,6 @@ angular.module('tothcommon.diagnostics', [
 
 (function(module){
 
-    var CurrentUser = function(localStorage){
-
-        var USERKEY = "utoken";
-
-        var setProfile = function(username, token){
-            profile.username=username;
-            profile.token = token;
-            localStorage.add(USERKEY, profile);
-        }
-
-        var initialize = function(){
-
-            var user ={
-                username:"",
-                token:"",
-                get loggedIn() {
-                    return this.token;
-                }
-            }
-            var localUser = localStorage.get(USERKEY);
-            if(localUser){
-                user.username = localUser.username;
-                user.token = localUser.token;
-            }
-
-            return user;
-        }
-
-        var profile = initialize();
-
-        return{
-            setProfile:setProfile,
-            profile:profile
-        }
-    };
-
-    module.factory("CurrentUser", CurrentUser);
-
-}(angular.module("tothcommon")));
-'use strict';
-
-(function(module){
-
     var addToken = function(CurrentUser, $q){
 
         //If the user is logged in on an HTTP request, add their token to headers
@@ -261,5 +223,48 @@ angular.module('tothcommon.diagnostics', [
     module.config(function($httpProvider){
         $httpProvider.interceptors.push("loginRedirect");
     });
+
+}(angular.module("tothcommon")));
+'use strict';
+
+(function(module){
+
+    var CurrentUser = function(localStorage){
+
+        var USERKEY = "utoken";
+
+        var setProfile = function(username, token){
+            profile.username=username;
+            profile.token = token;
+            localStorage.add(USERKEY, profile);
+        }
+
+        var initialize = function(){
+
+            var user ={
+                username:"",
+                token:"",
+                get loggedIn() {
+                    return this.token;
+                }
+            }
+            var localUser = localStorage.get(USERKEY);
+            if(localUser){
+                user.username = localUser.username;
+                user.token = localUser.token;
+            }
+
+            return user;
+        }
+
+        var profile = initialize();
+
+        return{
+            setProfile:setProfile,
+            profile:profile
+        }
+    };
+
+    module.factory("CurrentUser", CurrentUser);
 
 }(angular.module("tothcommon")));
