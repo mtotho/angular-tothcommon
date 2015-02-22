@@ -42,8 +42,9 @@
         }
         return{
             setProfile:setProfile,
-            profile:profile,
-            data:data
+            setData:setData,
+            profile:model.profile,
+            data:model.data
         }
     };
 
