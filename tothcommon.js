@@ -30,33 +30,19 @@ angular.module('tothcommon.diagnostics', [
 
 'use strict';
 
-angular.module('tothcommon.security.oauth', [
-    'tothcommon.security',
-    'angular-google-gapi'
-])
+angular.module('tothcommon.oauth', [
+    'gapi'
+]).value('GoogleApp', {
+    apiKey: 'AIzaSyCYq35NHoCDCJLzk4yYwbznLiRYConavoo',
+    clientId: '699007912539-32e3hft1eio7us5rcqql1fp142v1b8ea.apps.googleusercontent.com',
+    scopes: [
+        // whatever scopes you need for your app, for example:
+        'profile'
 
-    .run(function (GAuth, GApi, $state) {
+        // ...
+    ]
+});
 
-        var CLIENT = '699007912539-32e3hft1eio7us5rcqql1fp142v1b8ea.apps.googleusercontent.com';
-        var BASE = 'http://localhost:2004/api';
-
-        GApi.load('myApiName','v1',BASE);
-
-        GAuth.setClient(CLIENT);
-
-        GAuth.checkAuth().then(
-            function () {
-                $state.go('webapp.home'); // an example of action if it's possible to
-                // authenticate user at startup of the application
-            },
-            function() {
-                $state.go('login');       // an example of action if it's impossible to
-                // authenticate user at startup of the application
-            }
-        );
-
-
-    });
 
 
 
@@ -300,4 +286,4 @@ angular.module('tothcommon.security.oauth', [
 
     module.factory("oauth", oauth);
 
-}(angular.module("tothcommon.security.oauth")));
+}(angular.module("tothcommon.oauth")));

@@ -4,7 +4,7 @@
   "dependencies": {
     "angular": "latest",
     "angular-ui-router":"latest",
-    "angular-google-gapi":"latest"
+    "gapi":"https://github.com/christiansmith/ngGAPI.git"
 
   },
   "ignore":["gulpfile.js", ".gitignore", "package.json", "index.html"]

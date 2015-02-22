@@ -33,4 +33,4 @@
 
     module.factory("oauth", oauth);
 
-}(angular.module("tothcommon.security.oauth")));
+}(angular.module("tothcommon.oauth")));
