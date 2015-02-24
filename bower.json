@@ -1,6 +1,6 @@
 {
   "name":"tothcommon",
-  "main":[],
+  "main":"tothcommon.js",
   "dependencies": {
     "angular": "latest",
     "angular-ui-router":"latest",
